@@ -1,0 +1,12 @@
+package com.eu.taxcalculation.user.service;
+
+import com.eu.taxcalculation.user.entity.User;
+import com.eu.taxcalculation.user.exception.UserNotFoundException;
+import org.springframework.stereotype.Service;
+
+@Service
+public interface UserService {
+    public void saveUser(User user);
+
+    public User getUserByUsernameAndPassword(String username, String password) throws UserNotFoundException;
+}
