@@ -17,16 +17,12 @@ import java.util.Date;
 public class User {
 
     @Id
-    @GeneratedValue(generator = "uuid")
-    @GenericGenerator(name = "uuid", strategy = "uuid2")
-    @Column(name = "uuid", unique = true, updatable = false, nullable = false)
+    @GeneratedValue(strategy = GenerationType.UUID)
+    @Column(columnDefinition = "uniqueidentifier default newid()")
     private String uuid;
 
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
-
     @NonNull
-    @Column(nullable = false)
+    @Column(nullable = false, unique=true)
     private String username;
 
     @NonNull
@@ -42,17 +38,18 @@ public class User {
     @Column(nullable = false)
     private String roles;
 
-    @Column(columnDefinition = "tinyint default 1")
-    private Boolean enabled;
+
+    private Boolean enabled=true;
 
     private Date dob;
 
-    public User(String id, String username, String password, String roles, String tin, Date dob, Boolean enabled) {
+    public User(String id, String username, String password, String roles, String tin, Date dob) {
         this.uuid = id;
         this.username = username;
         this.password = password;
         this.roles = roles;
         this.tin = tin;
         this.dob = dob;
+        this.enabled = true;
     }
 }
