@@ -4,9 +4,12 @@ import com.eu.taxcalculation.user.filter.JwtFilter;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+//import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
+//@EnableWebSecurity
 @Configuration
-
 public class FilterConfig {
     @Bean
     public FilterRegistrationBean jwtFilter() {
@@ -18,4 +21,6 @@ public class FilterConfig {
         filter.addUrlPatterns("/api/v1/blog/restricted");
         return filter;
     }
+
+
 }
