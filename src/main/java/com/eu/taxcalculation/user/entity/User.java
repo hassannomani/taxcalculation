@@ -38,6 +38,9 @@ public class User {
     @Column(nullable = false)
     private String roles;
 
+    @NonNull
+    @Column(nullable = false)
+    private String email;
 
     private Boolean enabled=true;
 
