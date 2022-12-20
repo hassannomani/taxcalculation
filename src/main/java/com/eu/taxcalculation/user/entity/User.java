@@ -46,12 +46,13 @@ public class User {
 
     private Date dob;
 
-    public User(String id, String username, String password, String roles, String tin, Date dob) {
+    public User(String id, String username, String password, String roles, String tin,String email, Date dob) {
         this.uuid = id;
         this.username = username;
         this.password = password;
         this.roles = roles;
         this.tin = tin;
+        this.email = email;
         this.dob = dob;
         this.enabled = true;
     }

@@ -1,63 +1,55 @@
 package com.eu.taxcalculation.payment.entity;
 
-import com.eu.taxcalculation.user.entity.User;
 import io.micrometer.common.lang.NonNull;
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import org.hibernate.annotations.CreationTimestamp;
 
 import java.util.Date;
+@Getter
+@Setter
 @Entity
 @Table(name = "payments")
+@NoArgsConstructor
+
 public class Payment {
-    @Id
+    @Id   //BINARY(16)
     @GeneratedValue(strategy = GenerationType.UUID)
-    @Column(columnDefinition = "uniqueidentifier default newid()")
+    @Column(columnDefinition = "uniqueidentifier  default newid()")
     private String uuid;
 
 
-    @ManyToOne(fetch = FetchType.EAGER)
+   /* @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "uuid" , insertable = false,updatable = false)
-    private User userid;
+    private User userid;*/
+
+    @NonNull
+    @Column(nullable = false)
+    private String tinNo;
 
     @NonNull
     @Column(nullable = false)
     private double amount;
 
+    @NonNull
+    @Column(nullable = false)
+    private String assessmentYear;
 
-
-    @Basic(optional = false)
+   /* @Basic(optional = false)
     @Column(name = "created_at", insertable = false, updatable = false)
-    @Temporal(TemporalType.TIMESTAMP)
+    @Temporal(TemporalType.TIMESTAMP)*/
+    @Column(name = "created_at")
+    @CreationTimestamp
     private Date created_at;
 
-    public String getUuid() {
-        return uuid;
-    }
 
 
-    public double getAmount() {
-        return amount;
-    }
-
-    public Date getCreated_at() {
-        return created_at;
-    }
-
-    public void setUuid(String uuid) {
+    public Payment(String uuid, String tin, String assessmentYear, double amount) {
         this.uuid = uuid;
-    }
-
-
-    public void setAmount(double amount) {
-        this.amount = amount;
-    }
-
-    public void setCreated_at(Date created_at) {
-        this.created_at = created_at;
-    }
-    public Payment(){}
-    public Payment(String uuid, User userid, double amount) {
-        this.uuid = uuid;
-        this.userid = userid;
+        this.tinNo = tin;
+        this.assessmentYear = assessmentYear;
         this.amount = amount;
     }
 }

@@ -11,8 +11,8 @@ import org.springframework.stereotype.Service;
 public interface PaymentService {
     public void savePayment(Payment payment);
 
-    public Payment getPaymentById(String id) throws PaymentNotFoundException;
+    public Payment getPaymentByUUID(String id) throws PaymentNotFoundException;
 
-    public Payment getPaymentByUserId(String id) throws PaymentNotFoundException;
+    public Payment getPaymentByTinNo(String id) throws PaymentNotFoundException;
 
 }

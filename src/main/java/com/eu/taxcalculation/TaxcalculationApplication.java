@@ -8,7 +8,7 @@ import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfi
 public class TaxcalculationApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(TaxcalculationApplication.class, args);
+		SpringApplication. run(TaxcalculationApplication.class, args);
 	}
 
 }

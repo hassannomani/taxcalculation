@@ -15,7 +15,11 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/api/v1/users")
 public class UserController {
+
+    @Autowired
     private UserService userService;
+    @Autowired
+
     private JwtGeneratorInterface jwtGenerator;
 
     @Autowired

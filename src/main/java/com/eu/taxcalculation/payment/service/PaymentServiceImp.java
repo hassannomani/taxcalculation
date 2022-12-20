@@ -14,24 +14,25 @@ import org.springframework.stereotype.Service;
 @Service
 
 public class PaymentServiceImp implements PaymentService{
-    private UserRepository userRepository;
+
+    @Autowired
+
     private PaymentRepository paymentRepository;
 
     @Autowired
-    public void PaymentServiceImp(UserRepository userRepository, PaymentRepository paymentRepository){
-        this.userRepository=userRepository;
+    public void PaymentServiceImp( PaymentRepository paymentRepository){
         this.paymentRepository = paymentRepository;
     }
 
     @Override
     public void savePayment(Payment payment) {
-        paymentRepository.savePayment(payment);
+        paymentRepository.save(payment);
     }
 
     @Override
-    public Payment getPaymentById(String id) throws PaymentNotFoundException {
+    public Payment getPaymentByUUID(String id) throws PaymentNotFoundException {
 
-        Payment payment = paymentRepository.findById(id);
+        Payment payment = paymentRepository.findByUuid(id);
 
         if(payment == null){
             throw new PaymentNotFoundException("Invalid payment id");
@@ -40,9 +41,9 @@ public class PaymentServiceImp implements PaymentService{
     }
 
     @Override
-    public Payment getPaymentByUserId(String id) throws PaymentNotFoundException {
+    public Payment getPaymentByTinNo(String id) throws PaymentNotFoundException {
 
-        Payment payment = paymentRepository.findByUserId(id);
+        Payment payment = paymentRepository.findByTinNo(id);
 
         if(payment == null){
             throw new PaymentNotFoundException("Invalid payment id");
