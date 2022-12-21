@@ -25,13 +25,13 @@ public class AppBootStrap implements CommandLineRunner {
     public void run(String... args) throws Exception {
         Optional<User> user1 = Optional.ofNullable(userRepository.findByUsernameAndPassword("user", "1234"));
         if (user1.isEmpty()){
-            User userX = new User(UUID.randomUUID().toString(), "user", "1234", "ROLE_USER", "111111111111" ,"user@user.com", Date.valueOf("1970-01-01"));
+            User userX = new User(UUID.randomUUID().toString(), "user", "1234", "ROLE_USER", "111111111111" ,"user@user.com","1","1", Date.valueOf("1970-01-01"));
             userRepository.save(userX);
         }
 
         Optional<User> user2 = Optional.ofNullable(userRepository.findByUsernameAndPassword("admin", "admin"));
         if (user2.isEmpty()){
-            User userY = new User(UUID.randomUUID().toString(), "admin", "admin", "ROLE_ADMIN", "000000000000" ,"admin@nbr.gov.bd", Date.valueOf("1970-01-01"));
+            User userY = new User(UUID.randomUUID().toString(), "admin", "admin", "ROLE_ADMIN", "000000000000" ,"admin@nbr.gov.bd","1","1", Date.valueOf("1970-01-01"));
             userRepository.save(userY);
         }
     }
