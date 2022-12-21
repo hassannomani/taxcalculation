@@ -21,14 +21,14 @@ public class UserServiceImplemented implements UserService{
         this.userRepository=userRepository;
     }
     @Override
-    public void saveUser(User user) {
+    public User saveUser(User user) {
         //String password = user.getPassword();
         this.passwordEncoder = new BCryptPasswordEncoder();
         String pass = this.passwordEncoder.encode(user.getPassword());
         System.out.println("The pass is "+pass);
         user.setPassword(pass);
-        userRepository.save(user);
-
+        User u = userRepository.save(user);
+        return u;
     }
 
     @Override

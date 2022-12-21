@@ -1,8 +1,10 @@
 package com.eu.taxcalculation.user.controller;
 
 import com.eu.taxcalculation.user.config.JwtGeneratorInterface;
+import com.eu.taxcalculation.user.entity.Activation;
 import com.eu.taxcalculation.user.entity.User;
 import com.eu.taxcalculation.user.exception.UserNotFoundException;
+import com.eu.taxcalculation.user.service.ActivationService;
 import com.eu.taxcalculation.user.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -16,20 +18,24 @@ public class UserController {
     @Autowired
     private UserService userService;
     @Autowired
-
     private JwtGeneratorInterface jwtGenerator;
 
     @Autowired
-    public UserController(UserService userService, JwtGeneratorInterface jwtGenerator){
+    private ActivationService activationService;
+
+    @Autowired
+    public UserController(UserService userService, ActivationService activationService, JwtGeneratorInterface jwtGenerator){
         this.userService=userService;
         this.jwtGenerator=jwtGenerator;
+        this.activationService = activationService;
     }
 
     @PostMapping("/register")
     public ResponseEntity<?> postUser(@RequestBody User user){
         try{
-            userService.saveUser(user);
-            return new ResponseEntity<>(user, HttpStatus.CREATED);
+            User user1 = userService.saveUser(user);
+            activationService.saveActivation(user1);
+            return new ResponseEntity<>(user1, HttpStatus.CREATED);
         } catch (Exception e){
             return new ResponseEntity<>(e.getMessage(), HttpStatus.CONFLICT);
         }
@@ -55,5 +61,16 @@ public class UserController {
 
     public ResponseEntity<?> GetAllUsers() {
         return new ResponseEntity<>(userService.getAllTaxPayer(), HttpStatus.OK);
+    }
+
+    @GetMapping("/activation/{code}")
+    public ResponseEntity<?> activateUser(@PathVariable String code){
+        try{
+            Activation activation = activationService.activateUser(code);
+            //activationService.saveActivation(user1);
+            return new ResponseEntity<>(activation, HttpStatus.CREATED);
+        } catch (Exception e){
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.CONFLICT);
+        }
     }
 }

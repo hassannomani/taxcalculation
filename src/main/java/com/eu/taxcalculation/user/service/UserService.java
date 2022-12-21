@@ -8,7 +8,7 @@ import java.util.List;
 
 @Service
 public interface UserService {
-    public void saveUser(User user);
+    public User saveUser(User user);
 
     public User getUserByUsernameAndPassword(String username, String password) throws UserNotFoundException;
     public List<User> getAllTaxPayer();
