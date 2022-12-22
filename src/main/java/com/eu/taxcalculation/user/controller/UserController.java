@@ -17,6 +17,8 @@ public class UserController {
 
     @Autowired
     private UserService userService;
+
+
     @Autowired
     private JwtGeneratorInterface jwtGenerator;
 
@@ -48,10 +50,35 @@ public class UserController {
                 throw new UserNotFoundException("Username or Password is Empty");
             }
             User userData = userService.getUserByUsernameAndPassword(user.getUsername(), user.getPassword());
-            if(userData == null){
+            //System.out.println(userData.equals(null));
+            if(userData==null){
                 throw new UserNotFoundException("Username or Password is Invalid");
+            }else{
+
+                    Activation activation = activationService.findByUuid(userData);
+                    if(activation==null){
+                        return new ResponseEntity<>("Activation user not found", HttpStatus.CONFLICT);
+                    }else{
+                        String status = activation.getStatus();
+
+                        if(status.equals("active")){
+                            System.out.println(status+"1");
+                            return new ResponseEntity<>(jwtGenerator.generateToken(user), HttpStatus.OK);
+                        }else{
+                            System.out.println(status+"2");
+
+                            return new ResponseEntity<>("Activate your Account", HttpStatus.CONFLICT);
+                        }
+
+                    }
+                 /*   String status = activation.getStatus();
+                    System.out.println("0"+activation.getStatus()+ "0"+"active0");
+                    System.out.println("0"+activation.getStatus()+ "0");
+                    System.out.println(status.getClass().getName());
+                    System.out.println("status".getClass().getName());*/
+
+
             }
-            return new ResponseEntity<>(jwtGenerator.generateToken(user), HttpStatus.OK);
         } catch (UserNotFoundException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.CONFLICT);
         }

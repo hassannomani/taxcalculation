@@ -25,7 +25,7 @@ public class UserServiceImplemented implements UserService{
         //String password = user.getPassword();
         this.passwordEncoder = new BCryptPasswordEncoder();
         String pass = this.passwordEncoder.encode(user.getPassword());
-        System.out.println("The pass is "+pass);
+        //System.out.println("The pass is "+pass);
         user.setPassword(pass);
         User u = userRepository.save(user);
         return u;
@@ -37,12 +37,16 @@ public class UserServiceImplemented implements UserService{
 
         //User user = userRepository.findByUsernameAndPassword(username, pass);
         User user = userRepository.findByUsername(username);
-        boolean isPasswordMatches = this.passwordEncoder.matches(password, user.getPassword());
 
         if(user == null){
-            throw new UserNotFoundException("Invalid id and password");
+            return null;
+        }else{
+            boolean isPasswordMatches = this.passwordEncoder.matches(password, user.getPassword());
+            if(isPasswordMatches)
+                return user;
+            else
+                return null;
         }
-        return user;
     }
 
     @Override

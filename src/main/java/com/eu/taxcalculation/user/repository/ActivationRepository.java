@@ -8,6 +8,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface ActivationRepository extends JpaRepository<Activation, Long> {
-    public Activation findByUuid(String id);
+    public Activation findByUuid(String uuid);
 
 }

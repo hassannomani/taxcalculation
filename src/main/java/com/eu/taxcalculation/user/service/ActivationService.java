@@ -2,10 +2,13 @@ package com.eu.taxcalculation.user.service;
 
 import com.eu.taxcalculation.user.entity.Activation;
 import com.eu.taxcalculation.user.entity.User;
+import com.eu.taxcalculation.user.exception.UserNotFoundException;
 import com.eu.taxcalculation.user.repository.ActivationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import javax.xml.bind.SchemaOutputResolver;
 
 @Service
 public class ActivationService {
@@ -17,13 +20,13 @@ public class ActivationService {
 
     public void saveActivation(User user) {
         //String password = user.getPassword();
-        Activation activation = new Activation(user.getUuid(),"inctive");
+        Activation activation = new Activation(user.getUuid(),"inactive");
         activationRepository.save(activation);
     }
 
-    public Activation activateUser(String id) throws Exception {
-        Activation activation = activationRepository.findByUuid(id);
-        if(activation!=null)
+    public Activation activateUser(String uuid) throws Exception {
+        Activation activation = activationRepository.findByUuid(uuid);
+        if(activation==null)
             throw new Exception("code_not_found");
         else{
             activation.setStatus("active");
@@ -32,5 +35,12 @@ public class ActivationService {
 
         }
 
+    }
+
+    public Activation findByUuid(User user)  {
+        //String password = user.getPassword();
+        System.out.println(user.getUuid());
+        Activation activation = activationRepository.findByUuid(user.getUuid());
+        return activation;
     }
 }
