@@ -25,7 +25,7 @@ public class ActivationService {
     }
 
     public Activation activateUser(String uuid) throws Exception {
-        Activation activation = activationRepository.findByUuid(uuid);
+        Activation activation = activationRepository.findByActivationCode(uuid);
         if(activation==null)
             throw new Exception("code_not_found");
         else{

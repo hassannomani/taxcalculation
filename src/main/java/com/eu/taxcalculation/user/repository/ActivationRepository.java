@@ -10,4 +10,7 @@ import org.springframework.stereotype.Repository;
 public interface ActivationRepository extends JpaRepository<Activation, Long> {
     public Activation findByUuid(String uuid);
 
+    public Activation findByActivationCode(String uuid);
+
+
 }

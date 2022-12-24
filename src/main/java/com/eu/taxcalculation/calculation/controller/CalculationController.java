@@ -29,8 +29,8 @@ public class CalculationController {
     @PostMapping("/save")
     public ResponseEntity<?> saveCalculation(@RequestBody Calculation calculation){
         try{
-            calculationRepository.save(calculation);
-            return new ResponseEntity<>("Posted", HttpStatus.CREATED);
+            Calculation calculation1 = calculationService.saveCalculation(calculation);
+            return new ResponseEntity<>(calculation1, HttpStatus.CREATED);
         } catch (Exception e){
             return new ResponseEntity<>(e.getMessage(), HttpStatus.CONFLICT);
         }

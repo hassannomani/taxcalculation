@@ -57,4 +57,90 @@ public class CalculationServiceImp implements CalculationService{
         }
 
     }
+
+    public Calculation saveCalculation(Calculation calculation){
+        double amount= calculateTax(calculation);
+        calculation.setAmount(String.valueOf(amount));
+        calculationRepository.save(calculation);
+        return calculation;
+    }
+
+    private double maleTaxCalculate(double totalTax){
+
+        double payableAmount =0;
+        if(totalTax<=300000)
+            payableAmount = 0;
+
+        else if(totalTax>300000 && totalTax<=400000)
+            payableAmount = 0.05*(totalTax-300000);
+
+        else if(totalTax>400000 && totalTax<=700000)
+            payableAmount=(0.1*(totalTax-400000))+(0.05*100000);
+
+        else if(totalTax>700000 && totalTax<=1100000)
+            payableAmount=(0.15*(totalTax-700000))+(0.1*300000)+(0.05*100000);
+
+        else if(totalTax>1100000 && totalTax<=1600000)
+            payableAmount=(0.2*(totalTax-1100000))+(0.15*400000)+(0.1*300000)+(0.05*100000);
+
+        else
+            payableAmount=(0.25*(totalTax-1600000))+(0.2*500000)+(0.15*400000)+(0.1*300000)+(0.05*100000);
+        return payableAmount;
+    }
+
+    private double femaleTaxCalculate(double totalTax){
+
+        double payableAmount=0;
+
+        if(totalTax<=350000)
+            payableAmount = 0;
+
+        else if(totalTax>350000 && totalTax<=450000)
+            payableAmount = 0.05*(totalTax-350000);
+
+        else if(totalTax>450000 && totalTax<=750000)
+            payableAmount=(0.1*(totalTax-450000))+(0.05*100000);
+
+        else if(totalTax>750000 && totalTax<=1150000)
+            payableAmount=(0.15*(totalTax-750000))+(0.1*300000)+(0.05*100000);
+
+        else if(totalTax>1150000 && totalTax<=1650000)
+            payableAmount=(0.2*(totalTax-1150000))+(0.15*400000)+(0.1*300000)+(0.05*100000);
+
+        else
+            payableAmount=(0.25*(totalTax-1650000))+(0.2*500000)+(0.15*400000)+(0.1*300000)+(0.05*100000);
+
+        return payableAmount;
+    }
+    private double calculateTax(Calculation calculation) {
+        double baseSalary = Double.parseDouble(calculation.getSalary());
+        double festiveNSalaryTax = baseSalary+Double.parseDouble(calculation.getFestivalBonus());
+        double baseHouseRent = Double.parseDouble(calculation.getHouseRent());
+        double primaryHouseRent = baseSalary*0.5;
+        double smallerOne = primaryHouseRent>300000?300000:primaryHouseRent;
+        double houseRentTax = baseHouseRent-smallerOne>0?baseHouseRent-smallerOne:0;
+        double totalTax = festiveNSalaryTax+houseRentTax;
+        double investment = Double.parseDouble(calculation.getInvestment());
+        double investmentRebate= 0;
+        if(totalTax>1500000)
+            investmentRebate = investment*0.1;
+        else
+            investmentRebate = investment*0.15;
+        double payableAmount=0;
+        String gender = calculation.getGender();
+//
+        if(gender=="male"){
+            payableAmount = maleTaxCalculate(totalTax);
+        }else{
+          payableAmount = femaleTaxCalculate(totalTax);
+        }
+
+        double finalPayableTax = payableAmount - investmentRebate - Double.parseDouble(calculation.getSourceTax());
+        if(finalPayableTax<5000)
+            finalPayableTax = 5000;
+        return finalPayableTax;
+
+
+
+    }
 }
