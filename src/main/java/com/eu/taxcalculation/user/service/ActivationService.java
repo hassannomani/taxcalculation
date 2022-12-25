@@ -18,10 +18,11 @@ public class ActivationService {
         this.activationRepository= activationRepository;
     }
 
-    public void saveActivation(User user) {
+    public Activation saveActivation(User user) {
         //String password = user.getPassword();
         Activation activation = new Activation(user.getUuid(),"inactive");
-        activationRepository.save(activation);
+        Activation activation1 = activationRepository.save(activation);
+        return activation1;
     }
 
     public Activation activateUser(String uuid) throws Exception {

@@ -2,9 +2,11 @@ package com.eu.taxcalculation.user.controller;
 
 import com.eu.taxcalculation.user.config.JwtGeneratorInterface;
 import com.eu.taxcalculation.user.entity.Activation;
+import com.eu.taxcalculation.user.entity.EmailDetails;
 import com.eu.taxcalculation.user.entity.User;
 import com.eu.taxcalculation.user.exception.UserNotFoundException;
 import com.eu.taxcalculation.user.service.ActivationService;
+import com.eu.taxcalculation.user.service.EmailService;
 import com.eu.taxcalculation.user.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -26,6 +28,9 @@ public class UserController {
     private ActivationService activationService;
 
     @Autowired
+    private EmailService emailService;
+
+    @Autowired
     public UserController(UserService userService, ActivationService activationService, JwtGeneratorInterface jwtGenerator){
         this.userService=userService;
         this.jwtGenerator=jwtGenerator;
@@ -36,7 +41,8 @@ public class UserController {
     public ResponseEntity<?> postUser(@RequestBody User user){
         try{
             User user1 = userService.saveUser(user);
-            activationService.saveActivation(user1);
+            Activation activation = activationService.saveActivation(user1);
+            sendRegistrationEmail(user1,activation);
             return new ResponseEntity<>(user1, HttpStatus.CREATED);
         } catch (Exception e){
             return new ResponseEntity<>(e.getMessage(), HttpStatus.CONFLICT);
@@ -99,5 +105,19 @@ public class UserController {
         } catch (Exception e){
             return new ResponseEntity<>(e.getMessage(), HttpStatus.CONFLICT);
         }
+    }
+
+    public void sendRegistrationEmail (User user, Activation activation){
+        try{
+            String body = "Congratulations! Your registration is successful. Please paste the following link on the browser.\n"+
+                    "localhost:8080/activation/"+activation.getActivationCode();
+            EmailDetails emailDetails = new EmailDetails(user.getEmail(),body,"Welcome to Tax Service","");
+            String status
+                    = emailService.sendSimpleMail(emailDetails);
+            System.out.println(status);
+        }catch(Exception e){
+            System.out.println("Exception occurred"+e);
+        }
+
     }
 }
