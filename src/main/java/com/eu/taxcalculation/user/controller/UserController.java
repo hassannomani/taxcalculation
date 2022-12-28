@@ -37,6 +37,7 @@ public class UserController {
         this.activationService = activationService;
     }
 
+
     @PostMapping("/register")
     public ResponseEntity<?> postUser(@RequestBody User user){
         try{
@@ -49,6 +50,7 @@ public class UserController {
         }
     }
 
+    @CrossOrigin(origins = "http://localhost:4200")
     @PostMapping("/login")
     public ResponseEntity<?> loginUser(@RequestBody User user) {
         try {
@@ -90,8 +92,10 @@ public class UserController {
         }
     }
 
-    @GetMapping("/all")
 
+
+    @CrossOrigin(origins = "http://localhost:4200")
+    @GetMapping("/all")
     public ResponseEntity<?> GetAllUsers() {
         return new ResponseEntity<>(userService.getAllTaxPayer(), HttpStatus.OK);
     }
