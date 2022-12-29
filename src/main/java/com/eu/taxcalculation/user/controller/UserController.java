@@ -8,6 +8,7 @@ import com.eu.taxcalculation.user.exception.UserNotFoundException;
 import com.eu.taxcalculation.user.service.ActivationService;
 import com.eu.taxcalculation.user.service.EmailService;
 import com.eu.taxcalculation.user.service.UserService;
+import com.fasterxml.jackson.databind.util.JSONPObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -37,7 +38,7 @@ public class UserController {
         this.activationService = activationService;
     }
 
-
+    @CrossOrigin(origins = "http://localhost:4200")
     @PostMapping("/register")
     public ResponseEntity<?> postUser(@RequestBody User user){
         try{
@@ -71,7 +72,7 @@ public class UserController {
 
                         if(status.equals("active")){
                             System.out.println(status+"1");
-                            return new ResponseEntity<>(jwtGenerator.generateToken(user), HttpStatus.OK);
+                            return new ResponseEntity<>(jwtGenerator.generateToken(userData), HttpStatus.OK);
                         }else{
                             System.out.println(status+"2");
 
@@ -100,6 +101,7 @@ public class UserController {
         return new ResponseEntity<>(userService.getAllTaxPayer(), HttpStatus.OK);
     }
 
+    @CrossOrigin(origins = "http://localhost:4200")
     @GetMapping("/activation/{code}")
     public ResponseEntity<?> activateUser(@PathVariable String code){
         try{
@@ -107,6 +109,7 @@ public class UserController {
             //activationService.saveActivation(user1);
             return new ResponseEntity<>(activation, HttpStatus.CREATED);
         } catch (Exception e){
+
             return new ResponseEntity<>(e.getMessage(), HttpStatus.CONFLICT);
         }
     }
@@ -123,5 +126,11 @@ public class UserController {
             System.out.println("Exception occurred"+e);
         }
 
+    }
+
+    @CrossOrigin(origins = "http://localhost:4200")
+    @GetMapping("/profile/{id}")
+    public ResponseEntity<?> GetAUser(@PathVariable String id) {
+        return new ResponseEntity<>(userService.getATaxPayer(id), HttpStatus.OK);
     }
 }

@@ -54,4 +54,9 @@ public class UserServiceImplemented implements UserService{
        return userRepository.findAll();
     }
 
+    @Override
+    public User getATaxPayer(String id){
+        return userRepository.findByUuid(id);
+    }
+
 }

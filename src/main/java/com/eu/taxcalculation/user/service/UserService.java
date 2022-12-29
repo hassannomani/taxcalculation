@@ -13,4 +13,7 @@ public interface UserService {
     public User getUserByUsernameAndPassword(String username, String password) throws UserNotFoundException;
     public List<User> getAllTaxPayer();
 
+    public User getATaxPayer(String id);
+
+
 }
