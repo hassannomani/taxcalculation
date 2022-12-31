@@ -133,4 +133,10 @@ public class UserController {
     public ResponseEntity<?> GetAUser(@PathVariable String id) {
         return new ResponseEntity<>(userService.getATaxPayer(id), HttpStatus.OK);
     }
+    @CrossOrigin(origins = "http://localhost:4200")
+    @PostMapping("/logout")
+    public ResponseEntity<?> logoutUser() {
+        return new ResponseEntity<>(true, HttpStatus.OK);
+    }
+
 }
