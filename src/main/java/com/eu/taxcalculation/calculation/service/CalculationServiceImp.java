@@ -49,20 +49,44 @@ public class CalculationServiceImp implements CalculationService{
             calculation1.setHouseRent(calculation.getHouseRent());
             calculation1.setAssessmentYear(calculation.getAssessmentYear());
             calculation1.setAmount(calculation.getAmount());
+            calculation1.setSubmitted(calculation.getSubmitted());
 
-            calculationRepository.save(calculation1);
-            return calculation1;
+            Calculation c =calculationRepository.save(calculation1);
+            return c;
         }else{
             return exceptionHandler(calculation1);
         }
 
     }
 
-    public Calculation saveCalculation(Calculation calculation){
+    public Calculation getCalculationByTinNAssessmentYear(String tin, String year) {
+        Calculation calculation = calculationRepository.findByTinAndAssessmentYear(tin,year);
+        return calculation;
+    }
+
+    public Calculation getCalculationByTinNAssessmentYearNSubmitted(String tin, String year) {
+        Calculation calculation = calculationRepository.findByTinAndAssessmentYearAndSubmitted(tin,year,"true");
+        return calculation;
+    }
+
+    public Calculation saveCalculation(Calculation calculation) throws CalculationNotFoundException{
+
         double amount= calculateTax(calculation);
         calculation.setAmount(String.valueOf(amount));
-        calculationRepository.save(calculation);
-        return calculation;
+        Calculation calc = getCalculationByTinNAssessmentYear(calculation.getTin(),calculation.getAssessmentYear());
+        if(calc==null){
+            calculationRepository.save(calculation);
+            return calculation;
+        }else{
+            try{
+                Calculation cal = updateCalculationByTinNo(calculation.getTin(),calculation);
+                return cal;
+            }catch (Exception e){
+                 throw new CalculationNotFoundException();
+            }
+
+        }
+
     }
 
     private double maleTaxCalculate(double totalTax){
@@ -135,9 +159,9 @@ public class CalculationServiceImp implements CalculationService{
           payableAmount = femaleTaxCalculate(totalTax);
         }
 
-        double finalPayableTax = payableAmount - investmentRebate - Double.parseDouble(calculation.getSourceTax());
+        double finalPayableTax = payableAmount - investmentRebate ;
         if(finalPayableTax<5000)
-            finalPayableTax = 5000;
+            finalPayableTax = 5000- Double.parseDouble(calculation.getSourceTax());
         return finalPayableTax;
 
 

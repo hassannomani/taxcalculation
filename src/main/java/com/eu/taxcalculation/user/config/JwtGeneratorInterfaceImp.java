@@ -34,7 +34,9 @@ public class JwtGeneratorInterfaceImp implements JwtGeneratorInterface{
         jwtTokenGen.put("message", message);
         jwtTokenGen.put("type", "bearer");
         jwtTokenGen.put("id", user.getUuid());
+        jwtTokenGen.put("tin", user.getTin());
         jwtTokenGen.put("username", user.getUsername());
+        jwtTokenGen.put("role", user.getRoles());
         System.out.println(user.getTin());
         System.out.println(user.getUsername());
         return jwtTokenGen;

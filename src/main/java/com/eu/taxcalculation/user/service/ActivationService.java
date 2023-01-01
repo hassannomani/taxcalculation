@@ -25,6 +25,14 @@ public class ActivationService {
         return activation1;
     }
 
+    public Activation saveActivationBootstrap(User user) {
+        //String password = user.getPassword();
+        Activation activation = new Activation(user.getUuid(),"active");
+        Activation activation1 = activationRepository.save(activation);
+        return activation1;
+    }
+
+
     public Activation activateUser(String uuid) throws Exception {
         Activation activation = activationRepository.findByActivationCode(uuid);
         if(activation==null)

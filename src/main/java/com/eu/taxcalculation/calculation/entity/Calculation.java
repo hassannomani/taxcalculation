@@ -53,8 +53,12 @@ public class Calculation {
     @Column(nullable = false)
     private String amount;
 
+    @NonNull
+    @Column(nullable = false)
+    private String submitted;
 
-    public Calculation(String uuid, String assessmentYear, String salary, String houseRent, String sourceTax, String festivalBonus,  String investment, String gender, String amount, String tin) {
+
+    public Calculation(String uuid, String assessmentYear, String salary, String houseRent, String sourceTax, String festivalBonus,  String investment, String gender, String amount, String tin,String submitted) {
         this.uuid = uuid;
         this.assessmentYear = assessmentYear;
         this.salary = salary;
@@ -65,5 +69,6 @@ public class Calculation {
         this.gender = gender;
         this.tin = tin;
         this.amount = amount;
+        this.submitted = submitted;
     }
 }

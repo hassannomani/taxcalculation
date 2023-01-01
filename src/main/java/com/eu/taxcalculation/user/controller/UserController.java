@@ -61,7 +61,7 @@ public class UserController {
             User userData = userService.getUserByUsernameAndPassword(user.getUsername(), user.getPassword());
             //System.out.println(userData.equals(null));
             if(userData==null){
-                throw new UserNotFoundException("Username or Password is Invalid");
+                return new ResponseEntity<>("Username or Password is Invalid", HttpStatus.CONFLICT);
             }else{
 
                     Activation activation = activationService.findByUuid(userData);
@@ -117,7 +117,7 @@ public class UserController {
     public void sendRegistrationEmail (User user, Activation activation){
         try{
             String body = "Congratulations! Your registration is successful. Please paste the following link on the browser.\n"+
-                    "localhost:8080/activation/"+activation.getActivationCode();
+                    "localhost:4200/activation/"+activation.getActivationCode();
             EmailDetails emailDetails = new EmailDetails(user.getEmail(),body,"Welcome to Tax Service","");
             String status
                     = emailService.sendSimpleMail(emailDetails);

@@ -25,6 +25,11 @@ public interface CalculationService {
 
     public Calculation updateCalculationByTinNo(String id, Calculation cal) throws CalculationNotFoundException;
 
-    public Calculation saveCalculation(Calculation calculation);
+    public Calculation saveCalculation(Calculation calculation) throws CalculationNotFoundException;
+
+    public Calculation getCalculationByTinNAssessmentYear(String tin, String assmntYear) throws CalculationNotFoundException;
+
+    public Calculation getCalculationByTinNAssessmentYearNSubmitted(String tin, String assmntYear);
+
 
 }

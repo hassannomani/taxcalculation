@@ -15,6 +15,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.Year;
+
 @RestController
 @RequestMapping("/api/v1/calculation")
 public class CalculationController {
@@ -27,6 +29,7 @@ public class CalculationController {
     public CalculationController(CalculationService calculationService){
         this.calculationService = calculationService;
     }
+    @CrossOrigin(origins = "http://localhost:4200")
     @PostMapping("/save")
     public ResponseEntity<?> saveCalculation(@RequestBody Calculation calculation){
         try{
@@ -36,6 +39,7 @@ public class CalculationController {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.CONFLICT);
         }
     }
+
 
     @GetMapping("/calculation-tin/{tin}")
     public ResponseEntity<?> getCalculationByTin(@PathVariable String tin){
@@ -73,5 +77,20 @@ public class CalculationController {
 
     public ResponseEntity<?> GetAllCalculation() {
         return new ResponseEntity<>(calculationService.getAllCalculation(), HttpStatus.OK);
+    }
+    @CrossOrigin(origins = "http://localhost:4200")
+    @GetMapping("/submitted/{tin}")
+    public ResponseEntity<?> GetSubmittedReturn(@PathVariable String tin) {
+        int year = Year.now().getValue();
+        int nextYear = Year.now().getValue()+1;
+        String assessmentYear = year+"-"+nextYear;
+        System.out.println(assessmentYear);
+        System.out.println(tin);
+        try{
+            Calculation calculation = calculationService.getCalculationByTinNAssessmentYearNSubmitted(tin,assessmentYear);
+            return new ResponseEntity<>(calculation, HttpStatus.OK);
+        }catch(Exception e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.OK);
+        }
     }
 }
