@@ -20,7 +20,7 @@ public class PaymentController {
 
         this.paymentService=paymentService;
     }
-
+    @CrossOrigin(origins = "http://localhost:4200")
     @PostMapping("/save")
     public ResponseEntity<?> savePayment(@RequestBody Payment payment){
         try{

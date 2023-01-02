@@ -37,6 +37,14 @@ public class Payment {
     @Column(nullable = false)
     private String assessmentYear;
 
+    @NonNull
+    @Column(nullable = false)
+    private String getway;
+
+    @NonNull
+    @Column(nullable = false)
+    private String mobile;
+
    /* @Basic(optional = false)
     @Column(name = "created_at", insertable = false, updatable = false)
     @Temporal(TemporalType.TIMESTAMP)*/
@@ -46,10 +54,12 @@ public class Payment {
 
 
 
-    public Payment(String uuid, String tin, String assessmentYear, double amount) {
+    public Payment(String uuid, String tin, String assessmentYear, String getway, String mobile, double amount) {
         this.uuid = uuid;
         this.tinNo = tin;
         this.assessmentYear = assessmentYear;
+        this.getway = getway;
+        this.mobile = mobile;
         this.amount = amount;
     }
 }
