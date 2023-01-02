@@ -11,6 +11,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 
 public class PaymentServiceImp implements PaymentService{
@@ -49,6 +51,11 @@ public class PaymentServiceImp implements PaymentService{
             throw new PaymentNotFoundException("Invalid payment id");
         }
         return payment;
+    }
+
+    @Override
+    public List<Payment> getAll(){
+        return paymentRepository.findAll();
     }
 
 }

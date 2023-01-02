@@ -6,6 +6,8 @@ import com.eu.taxcalculation.user.entity.User;
 import com.eu.taxcalculation.user.exception.UserNotFoundException;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 
 public interface PaymentService {
@@ -14,5 +16,7 @@ public interface PaymentService {
     public Payment getPaymentByUUID(String id) throws PaymentNotFoundException;
 
     public Payment getPaymentByTinNo(String id) throws PaymentNotFoundException;
+
+    public List<Payment> getAll();
 
 }

@@ -50,5 +50,10 @@ public class PaymentController {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.CONFLICT);
         }
     }
+    @CrossOrigin(origins = "http://localhost:4200")
+    @GetMapping("/all")
+    public ResponseEntity<?> getPayments() {
+        return new ResponseEntity<>(paymentService.getAll(), HttpStatus.OK);
+    }
 
 }
