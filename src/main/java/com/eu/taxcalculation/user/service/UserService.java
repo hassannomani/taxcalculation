@@ -15,5 +15,7 @@ public interface UserService {
 
     public User getATaxPayer(String id);
 
+    public User getUserByUsername(String username);
+
 
 }
