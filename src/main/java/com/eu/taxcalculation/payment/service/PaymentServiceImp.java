@@ -43,9 +43,9 @@ public class PaymentServiceImp implements PaymentService{
     }
 
     @Override
-    public Payment getPaymentByTinNo(String id) throws PaymentNotFoundException {
+    public Payment getPaymentByTinNoAndYear(String id, String year) throws PaymentNotFoundException {
 
-        Payment payment = paymentRepository.findByTinNo(id);
+        Payment payment = paymentRepository.findByTinNoAndAssessmentYear(id,year);
 
         if(payment == null){
             throw new PaymentNotFoundException("Invalid payment id");

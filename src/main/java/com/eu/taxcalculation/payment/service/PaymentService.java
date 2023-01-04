@@ -15,7 +15,7 @@ public interface PaymentService {
 
     public Payment getPaymentByUUID(String id) throws PaymentNotFoundException;
 
-    public Payment getPaymentByTinNo(String id) throws PaymentNotFoundException;
+    public Payment getPaymentByTinNoAndYear(String id, String year) throws PaymentNotFoundException;
 
     public List<Payment> getAll();
 

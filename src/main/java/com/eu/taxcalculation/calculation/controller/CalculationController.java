@@ -40,12 +40,11 @@ public class CalculationController {
         }
     }
 
-
-    @GetMapping("/calculation-tin/{tin}")
-    public ResponseEntity<?> getCalculationByTin(@PathVariable String tin){
+    @CrossOrigin(origins = "http://localhost:4200")
+    @GetMapping("/calculation-tin")
+    public ResponseEntity<?> getCalculationByTin(@RequestParam("tin") String tin, @RequestParam("year") String year){
         try{
-
-            return new ResponseEntity<>(calculationService.getCalculationByTin(tin), HttpStatus.CREATED);
+            return new ResponseEntity<>(calculationService.getCalculationByTinNAssessmentYearNSubmitted(tin,year), HttpStatus.CREATED);
         } catch (Exception e){
             return new ResponseEntity<>(e.getMessage(), HttpStatus.CONFLICT);
         }

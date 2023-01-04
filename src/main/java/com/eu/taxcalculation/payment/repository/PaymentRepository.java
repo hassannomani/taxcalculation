@@ -11,5 +11,5 @@ public interface PaymentRepository extends JpaRepository<Payment, Long> {
 
     //public void savePayment(Payment payment);
 
-    public Payment findByTinNo(String userid);
+    public Payment findByTinNoAndAssessmentYear(String tin, String assessmentYear);
 }

@@ -13,7 +13,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:4200")
+@CrossOrigin()
 @RequestMapping("/api/v1/payment")
 public class PaymentController {
     private PaymentService paymentService;
@@ -43,11 +43,12 @@ public class PaymentController {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.CONFLICT);
         }
     }
-
-    @GetMapping("/payment-tin/{tin}")
-    public ResponseEntity<?> getPaymentByTin(@PathVariable String tin){
+    @CrossOrigin(origins = "http://localhost:4200")
+    @GetMapping("/payment-tin")
+    public ResponseEntity<?> getPaymentByTinAndYear(@RequestParam("tin") String tin, @RequestParam("year") String year){
         try{
-            Payment p = paymentService.getPaymentByTinNo(tin);
+            //System.out.println("getting tin=="+tin);
+            Payment p = paymentService.getPaymentByTinNoAndYear(tin,year);
             return new ResponseEntity<>(p, HttpStatus.CREATED);
         } catch (Exception e){
             return new ResponseEntity<>(e.getMessage(), HttpStatus.CONFLICT);
